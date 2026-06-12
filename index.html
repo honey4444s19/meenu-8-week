@@ -5,22 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>8 Weeks With You ❤️</title>
     
-    <!-- Google Fonts for a cinematic, premium look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* --- DESIGN SYSTEM & TOKENS --- */
         :root {
-            --bg-color: #06040a;
-            --text-primary: #f3f1f5;
-            --text-secondary: #a19da6;
+            --bg-color: #0b0813;
+            --text-primary: #f4f2f7;
+            --text-secondary: #948f9c;
             --accent-pink: #ff79c6;
             --accent-purple: #bd93f9;
-            --glow-color: rgba(189, 147, 249, 0.2);
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.07);
+            --glass-bg: rgba(255, 255, 255, 0.01);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --neon-glow: rgba(189, 147, 249, 0.15);
         }
 
         * {
@@ -32,40 +30,46 @@
         html {
             scroll-behavior: smooth;
             background-color: var(--bg-color);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-primary);
             overflow-x: hidden;
         }
 
+        /* Ambient background graphics to prevent "emptiness" */
         body {
             position: relative;
             min-height: 100vh;
+            /* Subtle grid overlay for texture */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        /* Ambient background glow points */
-        .ambient-glow {
+        .ambient-glow-1 {
             position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, rgba(139, 92, 246, 0.02) 50%, transparent 100%);
-            top: -200px;
-            left: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.06) 0%, rgba(139, 92, 246, 0.01) 60%, transparent 100%);
+            top: -10%;
+            left: -10%;
             pointer-events: none;
             z-index: 1;
+            filter: blur(40px);
         }
 
-        .ambient-glow-bottom {
+        .ambient-glow-2 {
             position: fixed;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.04) 0%, rgba(236, 72, 153, 0.01) 60%, transparent 100%);
-            bottom: -300px;
-            right: -300px;
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.01) 70%, transparent 100%);
+            bottom: -20%;
+            right: -10%;
             pointer-events: none;
             z-index: 1;
+            filter: blur(50px);
         }
 
-        /* Background Particle Canvas */
         #stars-canvas {
             position: fixed;
             top: 0;
@@ -76,13 +80,12 @@
             pointer-events: none;
         }
 
-        /* Main Content wrapper */
         main {
             position: relative;
             z-index: 3;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* --- HERO SECTION --- */
@@ -93,16 +96,18 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 60px 0;
-            position: relative;
+            padding: 80px 0;
         }
 
         .hero h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 300;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #fff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             opacity: 0;
             animation: fadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             animation-delay: 0.3s;
@@ -111,20 +116,20 @@
         .hero p.subtitle {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--text-secondary);
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             opacity: 0;
             animation: fadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             animation-delay: 0.7s;
         }
 
-        /* Centerpiece Abstract Hands Animation */
+        /* Abstract Hands */
         .hands-container {
-            width: 300px;
-            height: 200px;
+            width: 320px;
+            height: 180px;
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -132,18 +137,17 @@
 
         .hand-svg {
             position: absolute;
-            width: 120px;
+            width: 130px;
             height: auto;
             fill: none;
-            stroke: rgba(255, 255, 255, 0.4);
-            stroke-width: 1.5;
+            stroke: rgba(244, 242, 247, 0.35);
+            stroke-width: 1.2;
             stroke-linecap: round;
-            transition: all 2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .hand-left {
             left: 10px;
-            transform: translateX(-30px);
+            transform: translateX(-40px);
             opacity: 0;
             animation: slideHandLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             animation-delay: 1.2s;
@@ -151,7 +155,7 @@
 
         .hand-right {
             right: 10px;
-            transform: translateX(30px) scaleX(-1);
+            transform: translateX(40px) scaleX(-1);
             opacity: 0;
             animation: slideHandRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             animation-delay: 1.2s;
@@ -159,9 +163,9 @@
 
         .heart-glow-center {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, rgba(255, 121, 198, 0.8) 0%, rgba(189, 147, 249, 0) 70%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255, 121, 198, 0.6) 0%, rgba(189, 147, 249, 0) 70%);
             border-radius: 50%;
             opacity: 0;
             transform: scale(0.5);
@@ -174,36 +178,36 @@
 
         .heart-glow-center svg {
             fill: var(--accent-pink);
-            width: 18px;
-            height: 18px;
-            filter: drop-shadow(0 0 8px var(--accent-pink));
+            width: 16px;
+            height: 16px;
+            filter: drop-shadow(0 0 10px var(--accent-pink));
         }
 
-        /* --- COUNTDOWN TIMER --- */
+        /* Countdown Widget */
         .countdown-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 11, 25, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            padding: 20px 40px;
-            border-radius: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            padding: 24px 44px;
+            border-radius: 100px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255,255,255,0.05);
             opacity: 0;
             animation: fadeIn 1.5s ease forwards;
             animation-delay: 2s;
         }
 
         .countdown-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.25em;
             color: var(--text-secondary);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .countdown-timer {
             display: flex;
-            gap: 24px;
+            gap: 28px;
         }
 
         .time-block {
@@ -213,65 +217,64 @@
         }
 
         .time-num {
-            font-size: 1.8rem;
-            font-weight: 300;
-            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 200;
+            color: #fff;
             font-variant-numeric: tabular-nums;
         }
 
         .time-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             color: var(--text-secondary);
-            letter-spacing: 0.1em;
-            margin-top: 2px;
+            letter-spacing: 0.15em;
+            margin-top: 4px;
         }
 
-        /* --- TIMELINE SECTION --- */
+        /* --- CHAPTERS (TIMELINE) SECTION --- */
         .timeline-section {
-            padding: 100px 0;
+            padding: 120px 0;
         }
 
         .section-title {
             text-align: center;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 300;
-            margin-bottom: 60px;
+            margin-bottom: 100px;
             letter-spacing: -0.01em;
         }
 
         .timeline-container {
             position: relative;
-            max-width: 800px;
+            max-width: 650px;
             margin: 0 auto;
         }
 
-        /* Central Timeline Track Line */
+        /* Vertical Continuous Line connecting pages */
         .timeline-container::before {
             content: '';
             position: absolute;
-            left: 50%;
-            top: 0;
+            left: -30px;
+            top: 5px;
             width: 1px;
             height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1) 10%, rgba(255,255,255,0.1) 90%, transparent);
-            transform: translateX(-50%);
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08) 5%, rgba(255,255,255,0.08) 95%, transparent);
         }
 
         .timeline-card {
-            width: 45%;
-            margin-bottom: 40px;
             position: relative;
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 20px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border 0.4s ease, box-shadow 0.4s ease;
+            padding: 40px;
+            border-radius: 24px;
+            margin-bottom: 60px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .timeline-card.visible {
@@ -280,119 +283,94 @@
         }
 
         .timeline-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 121, 198, 0.25);
-            box-shadow: 0 12px 40px 0 rgba(189, 147, 249, 0.05);
+            border-color: rgba(189, 147, 249, 0.2);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(189, 147, 249, 0.03);
         }
 
-        /* Alternating layout left/right */
-        .timeline-card:nth-child(odd) {
-            float: left;
-            clear: both;
-        }
-
-        .timeline-card:nth-child(even) {
-            float: right;
-            clear: both;
-            margin-top: 30px; /* Offset look */
-        }
-
-        /* Timeline Dot Indicator */
+        /* Subtle indicator marker on left line */
         .timeline-card::after {
             content: '';
             position: absolute;
-            top: 35px;
-            width: 8px;
-            height: 8px;
+            left: -34px;
+            top: 45px;
+            width: 7px;
+            height: 7px;
             background-color: var(--bg-color);
-            border: 2px solid var(--text-secondary);
+            border: 1.5px solid var(--text-secondary);
             border-radius: 50%;
-            z-index: 4;
             transition: all 0.4s ease;
         }
 
         .timeline-card:hover::after {
             background-color: var(--accent-pink);
             border-color: var(--accent-pink);
-            box-shadow: 0 0 10px var(--accent-pink);
-        }
-
-        .timeline-card:nth-child(odd)::after {
-            right: -22.5%;
-        }
-
-        .timeline-card:nth-child(even)::after {
-            left: -22.5%;
+            box-shadow: 0 0 12px var(--accent-pink);
+            transform: scale(1.3);
         }
 
         .card-week {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
             color: var(--accent-purple);
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 6px;
         }
 
         .card-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
+            font-size: 1.9rem;
             font-weight: 400;
-            margin-bottom: 14px;
-            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
         }
 
         .card-text {
-            font-size: 0.92rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: var(--text-secondary);
             font-weight: 300;
         }
 
-        /* Clearfix for floating timeline layout */
-        .timeline-container::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* --- FINAL EMOTIONAL SECTION --- */
+        /* --- FINAL REASSURANCE SECTION --- */
         .final-section {
-            padding: 120px 0;
+            padding: 100px 0 160px 0;
             text-align: center;
-            max-width: 650px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
         .final-message {
-            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
             border: 1px solid var(--glass-border);
-            padding: 50px 40px;
-            border-radius: 24px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            padding: 55px 45px;
+            border-radius: 32px;
+            margin-bottom: 50px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-align: left;
         }
 
         .final-message h2 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 300;
-            margin-bottom: 24px;
-            letter-spacing: -0.01em;
+            margin-bottom: 28px;
+            letter-spacing: -0.02em;
+            text-align: center;
         }
 
         .final-message p {
-            font-size: 1.05rem;
-            line-height: 1.75;
+            font-size: 1rem;
+            line-height: 1.8;
             color: var(--text-secondary);
             font-weight: 300;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .final-message p strong {
-            color: var(--text-primary);
+            color: #fff;
             font-weight: 400;
         }
 
@@ -405,35 +383,35 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .voice-note-btn {
             background: transparent;
-            border: 1px solid rgba(255, 121, 198, 0.4);
+            border: 1px solid rgba(255, 121, 198, 0.3);
             color: var(--text-primary);
-            padding: 14px 32px;
-            border-radius: 30px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            padding: 16px 36px;
+            border-radius: 100px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.88rem;
             letter-spacing: 0.05em;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 15px rgba(255, 121, 198, 0.05);
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(255, 121, 198, 0.03);
         }
 
         .voice-note-btn:hover {
-            background: rgba(255, 121, 198, 0.08);
+            background: rgba(255, 121, 198, 0.06);
             border-color: var(--accent-pink);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 121, 198, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 121, 198, 0.15);
         }
 
         .voice-note-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .voice-note-btn svg {
@@ -444,227 +422,183 @@
 
         .audio-caption {
             font-size: 0.75rem;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.25);
             letter-spacing: 0.02em;
         }
 
-        /* --- KEYFRAME ANIMATIONS --- */
+        /* --- ANIMATIONS --- */
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideHandLeft {
-            to {
-                opacity: 1;
-                transform: translateX(25px);
-            }
+            to { opacity: 1; transform: translateX(32px); }
         }
 
         @keyframes slideHandRight {
-            to {
-                opacity: 1;
-                transform: translateX(-25px) scaleX(-1);
-            }
+            to { opacity: 1; transform: translateX(-32px) scaleX(-1); }
         }
 
         @keyframes heartBurst {
             0% { opacity: 0; transform: scale(0.5); }
-            40% { opacity: 1; transform: scale(1.2); }
-            70% { opacity: 1; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 12px rgba(255, 121, 198, 0.6)); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 15px rgba(255, 121, 198, 0.5)); }
         }
 
-        /* --- RESPONSIVE LAYOUTS --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.6rem; }
-            .hero p.subtitle { font-size: 1.25rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p.subtitle { font-size: 1.3rem; }
 
-            .timeline-container::before { left: 20px; }
-            
-            .timeline-card {
-                width: calc(100% - 40px);
-                float: none !important;
-                margin-left: 40px !important;
-                margin-right: 0 !important;
-                margin-top: 0 !important;
-                margin-bottom: 30px;
-            }
-
-            .timeline-card::after {
-                left: -24px !important;
-                right: auto !important;
-                top: 38px;
-            }
+            .timeline-container { margin-left: 20px; }
+            .timeline-container::before { left: -20px; }
+            .timeline-card { padding: 30px 24px; margin-bottom: 40px;}
+            .timeline-card::after { left: -24px; top: 35px; }
 
             .countdown-timer { gap: 16px; }
-            .time-num { font-size: 1.4rem; }
+            .time-num { font-size: 1.5rem; }
             
-            .final-message {
-                padding: 35px 20px;
-            }
+            .final-message { padding: 35px 24px; }
+            .final-message h2 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient background layers -->
-    <div class="ambient-glow"></div>
-    <div class="ambient-glow-bottom"></div>
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
     <canvas id="stars-canvas"></canvas>
 
     <main>
-        <!-- HERO SECTION -->
         <section class="hero">
             <h1>8 Weeks With You ❤️</h1>
-            <p class="subtitle">And somehow you already feel like home.</p>
+            <p class="subtitle">and honestly, you already feel like home to me.</p>
 
-            <!-- Interactive Line-Art Hands -->
             <div class="hands-container">
-                <!-- Left Hand Outline Vector -->
                 <svg class="hand-svg hand-left" viewBox="0 0 100 100">
                     <path d="M10,45 C25,43 35,47 50,52 C58,54 68,52 75,48 C78,46 82,48 80,52 C77,57 65,60 55,59 C40,58 25,62 10,65" />
-                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.7"/>
+                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.6"/>
                 </svg>
 
-                <!-- Soft Glowing Light When They Meet -->
                 <div class="heart-glow-center">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                 </div>
 
-                <!-- Right Hand Outline Vector -->
                 <svg class="hand-svg hand-right" viewBox="0 0 100 100">
                     <path d="M10,45 C25,43 35,47 50,52 C58,54 68,52 75,48 C78,46 82,48 80,52 C77,57 65,60 55,59 C40,58 25,62 10,65" />
-                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.7"/>
+                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.6"/>
                 </svg>
             </div>
 
-            <!-- Countdown Timer Block -->
             <div class="countdown-container">
-                <div class="countdown-title">Days until I hold you again</div>
+                <div class="countdown-title">counting down the days until i hold you</div>
                 <div class="countdown-timer" id="countdown">
                     <div class="time-block">
                         <span class="time-num" id="days">00</span>
-                        <span class="time-label">Days</span>
+                        <span class="time-label">days</span>
                     </div>
                     <div class="time-block">
                         <span class="time-num" id="hours">00</span>
-                        <span class="time-label">Hrs</span>
+                        <span class="time-label">hours</span>
                     </div>
                     <div class="time-block">
                         <span class="time-num" id="minutes">00</span>
-                        <span class="time-label">Min</span>
+                        <span class="time-label">mins</span>
                     </div>
                     <div class="time-block">
                         <span class="time-num" id="seconds">00</span>
-                        <span class="time-label">Sec</span>
+                        <span class="time-label">secs</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- WEEK-BY-WEEK TIMELINE SECTION -->
         <section class="timeline-section">
-            <h2 class="section-title">Our Story So Far</h2>
+            <h2 class="section-title">Chapters of Us</h2>
             
             <div class="timeline-container">
-                <!-- Week 1 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 1</div>
-                    <h3 class="card-title">Strangers</h3>
-                    <p class="card-text">Two paths crossing quietly, completely unaware of how everything was about to change. A simple beginning, but looking back, it felt like a quiet spark waiting to catch.</p>
+                    <div class="card-week">Chapter I</div>
+                    <h3 class="card-title">Just Strangers</h3>
+                    <p class="card-text">We didn't know anything about each other. Just two people passing by, completely clueless that everything was about to flip upside down. It's crazy looking back at it now—how fast a stranger can become your whole world.</p>
                 </div>
 
-                <!-- Week 2 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 2</div>
-                    <h3 class="card-title">Opening Up</h3>
-                    <p class="card-text">The guards started coming down, one late-night text and deep conversation at a time. Discovering your mind felt less like getting to know someone and more like remembering a favorite melody.</p>
+                    <div class="card-week">Chapter II</div>
+                    <h3 class="card-title">Letting the Guard Down</h3>
+                    <p class="card-text">Those late-night texts where we actually started talking about real stuff. I remember feeling like, wow, I can actually just be completely myself here. Your voice became my favorite sound so fast.</p>
                 </div>
 
-                <!-- Week 3 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 3</div>
-                    <h3 class="card-title">Comfort</h3>
-                    <p class="card-text">Finding a rare, soft kind of peace in your laughter. By this point, talking to you became the natural anchor to my days. A feeling of safety I didn't realize I was searching for.</p>
+                    <div class="card-week">Chapter III</div>
+                    <h3 class="card-title">The Safe Place</h3>
+                    <p class="card-text">It quickly turned into this routine I never wanted to break. Whenever life got super chaotic or loud, talking to you was the only thing that actually calmed my mind down. You just feel safe.</p>
                 </div>
 
-                <!-- Week 4 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 4</div>
-                    <h3 class="card-title">Missing You</h3>
-                    <p class="card-text">Distance is hard, but it only made me realize how deeply you’ve woven yourself into my thoughts. The spaces between our calls felt heavier, proving how much you matter.</p>
+                    <div class="card-week">Chapter IV</div>
+                    <h3 class="card-title">Distance Sucks</h3>
+                    <p class="card-text">Missing you is a heavy feeling, honestly. The days we can't talk as much feel kinda empty. But it really just made me realize how much space you take up in my heart now. I hate the distance, but I love you.</p>
                 </div>
 
-                <!-- Week 5 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 5</div>
-                    <h3 class="card-title">Trust</h3>
-                    <p class="card-text">Stripping away the careful protective walls. Knowing that whatever vulnerabilities we shared, they were entirely held, safe, and understood in this private space of ours.</p>
+                    <div class="card-week">Chapter V</div>
+                    <h3 class="card-title">Real Trust</h3>
+                    <p class="card-text">Showing you the messy, imperfect parts of me that I usually try to hide from everyone else. And you didn't run away. You just listened and held space for me. I can't even tell you how much that meant.</p>
                 </div>
 
-                <!-- Week 6 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 6</div>
-                    <h3 class="card-title">Feelings</h3>
-                    <p class="card-text">No longer just a spark—this became a steady, comforting warmth. Realizing that 'home' doesn't always have to be a physical coordinates or place. Sometimes, it's a person.</p>
+                    <div class="card-week">Chapter VI</div>
+                    <h3 class="card-title">Oh, I've Got It Bad</h3>
+                    <p class="card-text">It stopped being just a little crush a long time ago. I realized 'home' isn't a physical building or a city on a map anymore. It's literally just wherever you are.</p>
                 </div>
 
-                <!-- Week 7 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 7</div>
-                    <h3 class="card-title">Hard Days Too</h3>
-                    <p class="card-text">Life gets heavy, and shadows creep in. But these days proved we aren't just built for the easy moments. Standing by you when it rains made everything we have feel even more real.</p>
+                    <div class="card-week">Chapter VII</div>
+                    <h3 class="card-title">Weathering the Bad Days</h3>
+                    <p class="card-text">Life gets messy and heavy sometimes, and we've had our stressful days too. But sticking through it and having each other's backs showed me we're the real deal. I'm not going anywhere, even when it rains.</p>
                 </div>
 
-                <!-- Week 8 -->
                 <div class="timeline-card">
-                    <div class="card-week">Week 8</div>
-                    <h3 class="card-title">Us</h3>
-                    <p class="card-text">Here we are today. Two distinct worlds matching each other’s rhythms perfectly, looking forward to every unwritten chapter ahead of us.</p>
+                    <div class="card-week">Chapter VIII</div>
+                    <h3 class="card-title">You & Me</h3>
+                    <p class="card-text">Here we are today. Eight weeks in, and I'm still completely amazed by you every single day. I'm so incredibly proud of us, and I'm so ready for all the unwritten chapters we're gonna build next.</p>
                 </div>
             </div>
         </section>
 
-        <!-- FINAL EMOTIONAL REASSURANCE SECTION -->
         <section class="final-section">
             <div class="final-message">
                 <h2>I'm right here.</h2>
-                <p>Life can demand a lot from you, and I know how easy it is to feel like you have to stand strong all on your own. But please remember: <strong>you don't have to carry everything alone anymore.</strong></p>
-                <p>I am here to share the weight, listen to the quiet thoughts, and bring you peace whenever things feel chaotic. No pressure, no expectations—just steady, unwavering support whenever you need a place to rest.</p>
-                <p>November is coming soon, and I can't wait to finally look at you and tell you all of this in person.</p>
+                <p>Look, I know life demands a lot from you right now, and I know how easy it is to feel like you have to be strong and handle everything entirely on your own.</p>
+                <p>But please remember: <strong>you don't have to carry the whole world by yourself anymore.</strong></p>
+                <p>I'm here to share the weight with you. To listen when you need to vent, or just sit in the quiet with you when you're tired. No pressure, no catching up to crazy expectations—just me, steadily by your side whenever you need a safe spot to rest.</p>
+                <p>November can't come soon enough. I just want to finally look at you, give you the biggest hug, and tell you all of this in person.</p>
             </div>
 
-            <!-- VOICE NOTE PLUG-IN -->
             <div class="audio-container">
-                <!-- Audio Element Placeholder -->
                 <audio id="love-audio" src="voice-note.mp3" preload="auto"></audio>
-                
                 <button class="voice-note-btn" id="audio-btn">
-                    <!-- Play Symbol -->
                     <svg id="play-icon" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z"/>
                     </svg>
-                    <!-- Pause Symbol (hidden initially) -->
                     <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;">
                         <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
                     </svg>
                     <span id="btn-text">Play My Voice Note</span>
                 </button>
-                <div class="audio-caption">Listen whenever you need a reminder.</div>
+                <div class="audio-caption">Listen whenever you need a quick reminder.</div>
             </div>
         </section>
     </main>
 
-    <!-- JAVASCRIPT: COUNTDOWN, PARTICLES & ANIMATIONS -->
     <script>
-        /* ==========================================================================
-           1. CONFIGURATION: EDIT YOUR NOVEMBER MEETING DATE HERE
-           ========================================================================== */
+        /* CONFIG_DATE: Edit your November countdown goal here */
         const TARGET_DATE_STR = "November 15, 2026 00:00:00"; 
         
-        // Audio handler setup
+        // Audio Toggle
         const audio = document.getElementById('love-audio');
         const audioBtn = document.getElementById('audio-btn');
         const playIcon = document.getElementById('play-icon');
@@ -673,7 +607,7 @@
 
         audioBtn.addEventListener('click', () => {
             if (audio.paused) {
-                audio.play().catch(e => console.log("Audio file placeholder empty. Replace 'voice-note.mp3' src attribute to play real sound."));
+                audio.play().catch(e => console.log("Voice note placeholder file is empty. Just replace 'voice-note.mp3' to make it live!"));
                 playIcon.style.display = 'none';
                 pauseIcon.style.display = 'inline-block';
                 btnText.innerText = "Pause Voice Note";
@@ -685,17 +619,14 @@
             }
         });
 
-        /* ==========================================================================
-           2. LIVE COUNTDOWN TIMER LOGIC
-           ========================================================================== */
+        // Live Countdown
         const targetDate = new Date(TARGET_DATE_STR).getTime();
-
         function updateCountdown() {
             const now = new Date().getTime();
             const difference = targetDate - now;
 
             if (difference < 0) {
-                document.querySelector('.countdown-title').innerText = "The wait is over ❤️";
+                document.querySelector('.countdown-title').innerText = "The wait is finally over ❤️";
                 document.getElementById('countdown').style.display = 'none';
                 return;
             }
@@ -713,14 +644,11 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        /* ==========================================================================
-           3. FLOATING STARS / PARTICLES ANIMATION (CANVAS)
-           ========================================================================== */
+        // Particles Background
         const canvas = document.getElementById('stars-canvas');
         const ctx = canvas.getContext('2d');
-
         let particles = [];
-        const particleCount = 60;
+        const particleCount = 55;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -730,82 +658,49 @@
         resizeCanvas();
 
         class Particle {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height; // Spread initially across screen
-            }
-
+            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 20;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedY = Math.random() * 0.3 + 0.1;
-                this.alpha = Math.random() * 0.5 + 0.1;
-                this.fadeSpeed = Math.random() * 0.005 + 0.002;
+                this.size = Math.random() * 1.3 + 0.6;
+                this.speedY = Math.random() * 0.25 + 0.08;
+                this.alpha = Math.random() * 0.4 + 0.1;
+                this.fadeSpeed = Math.random() * 0.004 + 0.001;
             }
-
             update() {
                 this.y -= this.speedY;
-                // Soft twinkling effect
                 this.alpha += this.fadeSpeed;
-                if (this.alpha > 0.7 || this.alpha < 0.1) {
-                    this.fadeSpeed = -this.fadeSpeed;
-                }
-
-                if (this.y < -10) {
-                    this.reset();
-                }
+                if (this.alpha > 0.6 || this.alpha < 0.1) this.fadeSpeed = -this.fadeSpeed;
+                if (this.y < -10) this.reset();
             }
-
             draw() {
-                ctx.fillStyle = `rgba(255, 121, 198, ${this.alpha})`;
+                ctx.fillStyle = `rgba(218, 172, 247, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function initParticles() {
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
-
-        initParticles();
         animateParticles();
 
-        /* ==========================================================================
-           4. SMOOTH SCROLL ENTRANCE ANIMATION (INTERSECTION OBSERVER)
-           ========================================================================== */
+        // Scroll Reveal Observer
         const cards = document.querySelectorAll('.timeline-card');
-        
-        const observerOptions = {
-            root: null,
-            threshold: 0.15,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
+        const observerOptions = { root: null, threshold: 0.1, rootMargin: "0px 0px -40px 0px" };
         const cardObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Reveal once
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
-
-        cards.forEach(card => {
-            cardObserver.observe(card);
-        });
+        cards.forEach(card => cardObserver.observe(card));
     </script>
 </body>
 </html>
