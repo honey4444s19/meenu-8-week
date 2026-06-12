@@ -1,490 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Weeks With You ❤️</title>
+    
+    <!-- Google Fonts for a cinematic, premium look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 
-<title>8 Weeks With You ❤️</title>
+    <style>
+        /* --- DESIGN SYSTEM & TOKENS --- */
+        :root {
+            --bg-color: #06040a;
+            --text-primary: #f3f1f5;
+            --text-secondary: #a19da6;
+            --accent-pink: #ff79c6;
+            --accent-purple: #bd93f9;
+            --glow-color: rgba(189, 147, 249, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.07);
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<style>
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        body {
+            position: relative;
+            min-height: 100vh;
+        }
 
-html{
-    scroll-behavior:smooth;
-}
+        /* Ambient background glow points */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, rgba(139, 92, 246, 0.02) 50%, transparent 100%);
+            top: -200px;
+            left: -200px;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#090909;
-    color:white;
-    overflow-x:hidden;
-}
+        .ambient-glow-bottom {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.04) 0%, rgba(236, 72, 153, 0.01) 60%, transparent 100%);
+            bottom: -300px;
+            right: -300px;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-/* BACKGROUND */
+        /* Background Particle Canvas */
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
 
-body::before{
-    content:'';
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at top left,#ff4d8d22,transparent 30%),
-    radial-gradient(circle at bottom right,#7a5cff22,transparent 30%);
-    z-index:-2;
-}
+        /* Main Content wrapper */
+        main {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.stars{
-    position:fixed;
-    width:100%;
-    height:100%;
-    z-index:-1;
-    overflow:hidden;
-}
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
 
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-    animation:float 6s linear infinite;
-    opacity:0.6;
-}
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: fadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.3s;
+        }
 
-@keyframes float{
-    from{
-        transform:translateY(0px);
-    }
-    to{
-        transform:translateY(-100vh);
-    }
-}
+        .hero p.subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.7s;
+        }
 
-/* HERO */
+        /* Centerpiece Abstract Hands Animation */
+        .hands-container {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.hero{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-}
+        .hand-svg {
+            position: absolute;
+            width: 120px;
+            height: auto;
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.4);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            transition: all 2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
-.hero h1{
-    font-size:4rem;
-    margin-top:30px;
-}
+        .hand-left {
+            left: 10px;
+            transform: translateX(-30px);
+            opacity: 0;
+            animation: slideHandLeft 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 1.2s;
+        }
 
-.hero p{
-    margin-top:15px;
-    color:#d0d0d0;
-    max-width:600px;
-    line-height:1.8;
-}
+        .hand-right {
+            right: 10px;
+            transform: translateX(30px) scaleX(-1);
+            opacity: 0;
+            animation: slideHandRight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 1.2s;
+        }
 
-/* HANDS */
+        .heart-glow-center {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 121, 198, 0.8) 0%, rgba(189, 147, 249, 0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: heartBurst 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 2.8s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.hands{
-    position:relative;
-    width:250px;
-    height:160px;
-}
+        .heart-glow-center svg {
+            fill: var(--accent-pink);
+            width: 18px;
+            height: 18px;
+            filter: drop-shadow(0 0 8px var(--accent-pink));
+        }
 
-.hand{
-    position:absolute;
-    width:120px;
-    height:120px;
-    border:3px solid white;
-    border-radius:50px;
-    border-top:none;
-    border-left:none;
-    transform:rotate(45deg);
-    opacity:0.9;
-}
+        /* --- COUNTDOWN TIMER --- */
+        .countdown-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 20px 40px;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+            animation-delay: 2s;
+        }
 
-.left{
-    left:0;
-    animation:leftMove 4s ease-in-out infinite;
-}
+        .countdown-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
 
-.right{
-    right:0;
-    transform:rotate(-135deg);
-    animation:rightMove 4s ease-in-out infinite;
-}
+        .countdown-timer {
+            display: flex;
+            gap: 24px;
+        }
 
-@keyframes leftMove{
-    0%,100%{
-        transform:translateX(0) rotate(45deg);
-    }
-    50%{
-        transform:translateX(15px) rotate(45deg);
-    }
-}
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-@keyframes rightMove{
-    0%,100%{
-        transform:translateX(0) rotate(-135deg);
-    }
-    50%{
-        transform:translateX(-15px) rotate(-135deg);
-    }
-}
+        .time-num {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            font-variant-numeric: tabular-nums;
+        }
 
-.glow{
-    position:absolute;
-    width:20px;
-    height:20px;
-    background:#ff4d8d;
-    border-radius:50%;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    box-shadow:0 0 30px #ff4d8d;
-    animation:pulse 2s infinite;
-}
+        .time-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            margin-top: 2px;
+        }
 
-@keyframes pulse{
-    0%,100%{
-        transform:translate(-50%,-50%) scale(1);
-    }
-    50%{
-        transform:translate(-50%,-50%) scale(1.4);
-    }
-}
+        /* --- TIMELINE SECTION --- */
+        .timeline-section {
+            padding: 100px 0;
+        }
 
-/* COUNTDOWN */
+        .section-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: -0.01em;
+        }
 
-.countdown{
-    display:flex;
-    gap:20px;
-    margin-top:40px;
-    flex-wrap:wrap;
-    justify-content:center;
-}
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.box{
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.1);
-    padding:20px;
-    border-radius:20px;
-    width:100px;
-    backdrop-filter:blur(10px);
-}
+        /* Central Timeline Track Line */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1) 10%, rgba(255,255,255,0.1) 90%, transparent);
+            transform: translateX(-50%);
+        }
 
-.box h2{
-    font-size:2rem;
-}
+        .timeline-card {
+            width: 45%;
+            margin-bottom: 40px;
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
 
-.box span{
-    color:#ccc;
-}
+        .timeline-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* TIMELINE */
+        .timeline-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 121, 198, 0.25);
+            box-shadow: 0 12px 40px 0 rgba(189, 147, 249, 0.05);
+        }
 
-.timeline{
-    padding:100px 20px;
-    max-width:900px;
-    margin:auto;
-}
+        /* Alternating layout left/right */
+        .timeline-card:nth-child(odd) {
+            float: left;
+            clear: both;
+        }
 
-.week{
-    margin-bottom:50px;
-    padding:30px;
-    background:rgba(255,255,255,0.05);
-    border-radius:25px;
-    border:1px solid rgba(255,255,255,0.08);
-    transition:0.3s;
-}
+        .timeline-card:nth-child(even) {
+            float: right;
+            clear: both;
+            margin-top: 30px; /* Offset look */
+        }
 
-.week:hover{
-    transform:translateY(-5px);
-}
+        /* Timeline Dot Indicator */
+        .timeline-card::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            z-index: 4;
+            transition: all 0.4s ease;
+        }
 
-.week h2{
-    margin-bottom:15px;
-    color:#ff7ca8;
-}
+        .timeline-card:hover::after {
+            background-color: var(--accent-pink);
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 10px var(--accent-pink);
+        }
 
-.week p{
-    line-height:1.8;
-    color:#d5d5d5;
-}
+        .timeline-card:nth-child(odd)::after {
+            right: -22.5%;
+        }
 
-/* FINAL MESSAGE */
+        .timeline-card:nth-child(even)::after {
+            left: -22.5%;
+        }
 
-.final{
-    padding:100px 20px;
-    text-align:center;
-    max-width:850px;
-    margin:auto;
-}
+        .card-week {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-purple);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
 
-.final h2{
-    font-size:3rem;
-    margin-bottom:30px;
-}
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 14px;
+            color: var(--text-primary);
+        }
 
-.final p{
-    line-height:2;
-    color:#d6d6d6;
-    font-size:1.1rem;
-}
+        .card-text {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
 
-/* BUTTON */
+        /* Clearfix for floating timeline layout */
+        .timeline-container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
 
-.voice-btn{
-    margin-top:40px;
-    display:inline-block;
-    padding:15px 35px;
-    border-radius:50px;
-    background:#ff4d8d;
-    color:white;
-    text-decoration:none;
-    transition:0.3s;
-}
+        /* --- FINAL EMOTIONAL SECTION --- */
+        .final-section {
+            padding: 120px 0;
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto;
+        }
 
-.voice-btn:hover{
-    transform:scale(1.05);
-}
+        .final-message {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--glass-border);
+            padding: 50px 40px;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
 
-/* FOOTER */
+        .final-message h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
 
-.footer{
-    padding:40px;
-    text-align:center;
-    color:#888;
-}
+        .final-message p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
 
-/* MOBILE */
+        .final-message p strong {
+            color: var(--text-primary);
+            font-weight: 400;
+        }
 
-@media(max-width:768px){
+        .final-message p:last-child {
+            margin-bottom: 0;
+        }
 
-.hero h1{
-    font-size:2.7rem;
-}
+        /* --- VOICE NOTE BUTTON --- */
+        .audio-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
 
-.final h2{
-    font-size:2.2rem;
-}
+        .voice-note-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 121, 198, 0.4);
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 15px rgba(255, 121, 198, 0.05);
+        }
 
-}
+        .voice-note-btn:hover {
+            background: rgba(255, 121, 198, 0.08);
+            border-color: var(--accent-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 121, 198, 0.15);
+        }
 
-</style>
+        .voice-note-btn:active {
+            transform: translateY(0);
+        }
+
+        .voice-note-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .audio-caption {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.02em;
+        }
+
+        /* --- KEYFRAME ANIMATIONS --- */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideHandLeft {
+            to {
+                opacity: 1;
+                transform: translateX(25px);
+            }
+        }
+
+        @keyframes slideHandRight {
+            to {
+                opacity: 1;
+                transform: translateX(-25px) scaleX(-1);
+            }
+        }
+
+        @keyframes heartBurst {
+            0% { opacity: 0; transform: scale(0.5); }
+            40% { opacity: 1; transform: scale(1.2); }
+            70% { opacity: 1; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 12px rgba(255, 121, 198, 0.6)); }
+        }
+
+        /* --- RESPONSIVE LAYOUTS --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.6rem; }
+            .hero p.subtitle { font-size: 1.25rem; }
+
+            .timeline-container::before { left: 20px; }
+            
+            .timeline-card {
+                width: calc(100% - 40px);
+                float: none !important;
+                margin-left: 40px !important;
+                margin-right: 0 !important;
+                margin-top: 0 !important;
+                margin-bottom: 30px;
+            }
+
+            .timeline-card::after {
+                left: -24px !important;
+                right: auto !important;
+                top: 38px;
+            }
+
+            .countdown-timer { gap: 16px; }
+            .time-num { font-size: 1.4rem; }
+            
+            .final-message {
+                padding: 35px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="stars"></div>
+    <!-- Ambient background layers -->
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-bottom"></div>
+    <canvas id="stars-canvas"></canvas>
 
-<!-- HERO -->
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1>8 Weeks With You ❤️</h1>
+            <p class="subtitle">And somehow you already feel like home.</p>
 
-<section class="hero">
+            <!-- Interactive Line-Art Hands -->
+            <div class="hands-container">
+                <!-- Left Hand Outline Vector -->
+                <svg class="hand-svg hand-left" viewBox="0 0 100 100">
+                    <path d="M10,45 C25,43 35,47 50,52 C58,54 68,52 75,48 C78,46 82,48 80,52 C77,57 65,60 55,59 C40,58 25,62 10,65" />
+                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.7"/>
+                </svg>
 
-<div class="hands">
-    <div class="hand left"></div>
-    <div class="hand right"></div>
-    <div class="glow"></div>
-</div>
+                <!-- Soft Glowing Light When They Meet -->
+                <div class="heart-glow-center">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
 
-<h1>8 Weeks With You ❤️</h1>
+                <!-- Right Hand Outline Vector -->
+                <svg class="hand-svg hand-right" viewBox="0 0 100 100">
+                    <path d="M10,45 C25,43 35,47 50,52 C58,54 68,52 75,48 C78,46 82,48 80,52 C77,57 65,60 55,59 C40,58 25,62 10,65" />
+                    <path d="M42,50 C48,42 58,35 68,36 C73,36.5 75,40 70,44 C65,48 55,51 48,51" opacity="0.7"/>
+                </svg>
+            </div>
 
-<p>
-And somehow you already feel like home.
-</p>
+            <!-- Countdown Timer Block -->
+            <div class="countdown-container">
+                <div class="countdown-title">Days until I hold you again</div>
+                <div class="countdown-timer" id="countdown">
+                    <div class="time-block">
+                        <span class="time-num" id="days">00</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="time-block">
+                        <span class="time-num" id="hours">00</span>
+                        <span class="time-label">Hrs</span>
+                    </div>
+                    <div class="time-block">
+                        <span class="time-num" id="minutes">00</span>
+                        <span class="time-label">Min</span>
+                    </div>
+                    <div class="time-block">
+                        <span class="time-num" id="seconds">00</span>
+                        <span class="time-label">Sec</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div class="countdown">
+        <!-- WEEK-BY-WEEK TIMELINE SECTION -->
+        <section class="timeline-section">
+            <h2 class="section-title">Our Story So Far</h2>
+            
+            <div class="timeline-container">
+                <!-- Week 1 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 1</div>
+                    <h3 class="card-title">Strangers</h3>
+                    <p class="card-text">Two paths crossing quietly, completely unaware of how everything was about to change. A simple beginning, but looking back, it felt like a quiet spark waiting to catch.</p>
+                </div>
 
-<div class="box">
-<h2 id="days">0</h2>
-<span>Days</span>
-</div>
+                <!-- Week 2 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 2</div>
+                    <h3 class="card-title">Opening Up</h3>
+                    <p class="card-text">The guards started coming down, one late-night text and deep conversation at a time. Discovering your mind felt less like getting to know someone and more like remembering a favorite melody.</p>
+                </div>
 
-<div class="box">
-<h2 id="hours">0</h2>
-<span>Hours</span>
-</div>
+                <!-- Week 3 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 3</div>
+                    <h3 class="card-title">Comfort</h3>
+                    <p class="card-text">Finding a rare, soft kind of peace in your laughter. By this point, talking to you became the natural anchor to my days. A feeling of safety I didn't realize I was searching for.</p>
+                </div>
 
-<div class="box">
-<h2 id="minutes">0</h2>
-<span>Minutes</span>
-</div>
+                <!-- Week 4 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 4</div>
+                    <h3 class="card-title">Missing You</h3>
+                    <p class="card-text">Distance is hard, but it only made me realize how deeply you’ve woven yourself into my thoughts. The spaces between our calls felt heavier, proving how much you matter.</p>
+                </div>
 
-<div class="box">
-<h2 id="seconds">0</h2>
-<span>Seconds</span>
-</div>
+                <!-- Week 5 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 5</div>
+                    <h3 class="card-title">Trust</h3>
+                    <p class="card-text">Stripping away the careful protective walls. Knowing that whatever vulnerabilities we shared, they were entirely held, safe, and understood in this private space of ours.</p>
+                </div>
 
-</div>
+                <!-- Week 6 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 6</div>
+                    <h3 class="card-title">Feelings</h3>
+                    <p class="card-text">No longer just a spark—this became a steady, comforting warmth. Realizing that 'home' doesn't always have to be a physical coordinates or place. Sometimes, it's a person.</p>
+                </div>
 
-<p style="margin-top:25px;">
-Every day brings me closer to you.
-</p>
+                <!-- Week 7 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 7</div>
+                    <h3 class="card-title">Hard Days Too</h3>
+                    <p class="card-text">Life gets heavy, and shadows creep in. But these days proved we aren't just built for the easy moments. Standing by you when it rains made everything we have feel even more real.</p>
+                </div>
 
-</section>
+                <!-- Week 8 -->
+                <div class="timeline-card">
+                    <div class="card-week">Week 8</div>
+                    <h3 class="card-title">Us</h3>
+                    <p class="card-text">Here we are today. Two distinct worlds matching each other’s rhythms perfectly, looking forward to every unwritten chapter ahead of us.</p>
+                </div>
+            </div>
+        </section>
 
-<!-- TIMELINE -->
+        <!-- FINAL EMOTIONAL REASSURANCE SECTION -->
+        <section class="final-section">
+            <div class="final-message">
+                <h2>I'm right here.</h2>
+                <p>Life can demand a lot from you, and I know how easy it is to feel like you have to stand strong all on your own. But please remember: <strong>you don't have to carry everything alone anymore.</strong></p>
+                <p>I am here to share the weight, listen to the quiet thoughts, and bring you peace whenever things feel chaotic. No pressure, no expectations—just steady, unwavering support whenever you need a place to rest.</p>
+                <p>November is coming soon, and I can't wait to finally look at you and tell you all of this in person.</p>
+            </div>
 
-<section class="timeline">
+            <!-- VOICE NOTE PLUG-IN -->
+            <div class="audio-container">
+                <!-- Audio Element Placeholder -->
+                <audio id="love-audio" src="voice-note.mp3" preload="auto"></audio>
+                
+                <button class="voice-note-btn" id="audio-btn">
+                    <!-- Play Symbol -->
+                    <svg id="play-icon" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <!-- Pause Symbol (hidden initially) -->
+                    <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    <span id="btn-text">Play My Voice Note</span>
+                </button>
+                <div class="audio-caption">Listen whenever you need a reminder.</div>
+            </div>
+        </section>
+    </main>
 
-<div class="week">
-<h2>Week 1 — Strangers</h2>
-<p>
-Two strangers somehow finding each other.
-We didn’t know much yet…
-but something already felt different.
-</p>
-</div>
+    <!-- JAVASCRIPT: COUNTDOWN, PARTICLES & ANIMATIONS -->
+    <script>
+        /* ==========================================================================
+           1. CONFIGURATION: EDIT YOUR NOVEMBER MEETING DATE HERE
+           ========================================================================== */
+        const TARGET_DATE_STR = "November 15, 2026 00:00:00"; 
+        
+        // Audio handler setup
+        const audio = document.getElementById('love-audio');
+        const audioBtn = document.getElementById('audio-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const btnText = document.getElementById('btn-text');
 
-<div class="week">
-<h2>Week 2 — Opening Up</h2>
-<p>
-We started learning little things about each other.
-Your habits, your thoughts, your energy.
-I started looking forward to every notification from you.
-</p>
-</div>
+        audioBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Audio file placeholder empty. Replace 'voice-note.mp3' src attribute to play real sound."));
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'inline-block';
+                btnText.innerText = "Pause Voice Note";
+            } else {
+                audio.pause();
+                playIcon.style.display = 'inline-block';
+                pauseIcon.style.display = 'none';
+                btnText.innerText = "Play My Voice Note";
+            }
+        });
 
-<div class="week">
-<h2>Week 3 — Comfort</h2>
-<p>
-Talking to you became natural.
-Like you quietly became part of my everyday life.
-</p>
-</div>
+        /* ==========================================================================
+           2. LIVE COUNTDOWN TIMER LOGIC
+           ========================================================================== */
+        const targetDate = new Date(TARGET_DATE_STR).getTime();
 
-<div class="week">
-<h2>Week 4 — Missing You</h2>
-<p>
-I started missing you even while talking to you.
-That’s when I realized this was becoming something real.
-</p>
-</div>
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
 
-<div class="week">
-<h2>Week 5 — Trust</h2>
-<p>
-You showed me parts of yourself you don’t show everyone.
-And I never took that lightly.
-</p>
-</div>
+            if (difference < 0) {
+                document.querySelector('.countdown-title').innerText = "The wait is over ❤️";
+                document.getElementById('countdown').style.display = 'none';
+                return;
+            }
 
-<div class="week">
-<h2>Week 6 — Feelings</h2>
-<p>
-The feelings became impossible to ignore.
-You became someone I genuinely care about deeply.
-</p>
-</div>
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-<div class="week">
-<h2>Week 7 — Hard Days Too</h2>
-<p>
-Not every day is easy.
-But even on difficult days,
-I still choose you.
-</p>
-</div>
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-<div class="week">
-<h2>Week 8 — Us</h2>
-<p>
-8 weeks.
-And I still smile every time I see your name on my screen.
-</p>
-</div>
+        /* ==========================================================================
+           3. FLOATING STARS / PARTICLES ANIMATION (CANVAS)
+           ========================================================================== */
+        const canvas = document.getElementById('stars-canvas');
+        const ctx = canvas.getContext('2d');
 
-</section>
+        let particles = [];
+        const particleCount = 60;
 
-<!-- FINAL MESSAGE -->
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-<section class="final">
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height; // Spread initially across screen
+            }
 
-<h2>You Don’t Have To Carry Everything Alone</h2>
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedY = Math.random() * 0.3 + 0.1;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.fadeSpeed = Math.random() * 0.005 + 0.002;
+            }
 
-<p>
-I know life has felt heavy sometimes lately.
-And I know you probably try to carry a lot by yourself.
-<br><br>
-But I hope slowly you start realizing that you don’t have to anymore.
-<br><br>
-I may not always know the perfect thing to say.
-I may not be able to instantly fix every bad day.
-<br><br>
-But I’ll always be here.
-To listen.
-To stay.
-To care.
-<br><br>
-8 weeks ago you were a stranger.
-Now you’re someone my heart looks for every single day.
-<br><br>
-And honestly…
-I can’t wait for November.
-I can’t wait to finally hold your hand for real.
-</p>
+            update() {
+                this.y -= this.speedY;
+                // Soft twinkling effect
+                this.alpha += this.fadeSpeed;
+                if (this.alpha > 0.7 || this.alpha < 0.1) {
+                    this.fadeSpeed = -this.fadeSpeed;
+                }
 
-<a href="#" class="voice-btn">
-▶ Play My Voice Note
-</a>
+                if (this.y < -10) {
+                    this.reset();
+                }
+            }
 
-</section>
+            draw() {
+                ctx.fillStyle = `rgba(255, 121, 198, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
 
-<div class="footer">
-Made with love ❤️
-</div>
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
 
-<script>
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
 
-/* STARS */
+        initParticles();
+        animateParticles();
 
-for(let i=0;i<80;i++){
+        /* ==========================================================================
+           4. SMOOTH SCROLL ENTRANCE ANIMATION (INTERSECTION OBSERVER)
+           ========================================================================== */
+        const cards = document.querySelectorAll('.timeline-card');
+        
+        const observerOptions = {
+            root: null,
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    let star=document.createElement('div');
-    star.classList.add('star');
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Reveal once
+                }
+            });
+        }, observerOptions);
 
-    star.style.left=Math.random()*100+'%';
-    star.style.top=Math.random()*100+'%';
-
-    star.style.animationDuration=
-    (Math.random()*5+3)+'s';
-
-    document.querySelector('.stars').appendChild(star);
-}
-
-/* COUNTDOWN */
-
-const targetDate = new Date("November 15, 2026 00:00:00").getTime();
-
-const timer = setInterval(function(){
-
-const now = new Date().getTime();
-
-const distance = targetDate - now;
-
-const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-document.getElementById("days").innerHTML = days;
-document.getElementById("hours").innerHTML = hours;
-document.getElementById("minutes").innerHTML = minutes;
-document.getElementById("seconds").innerHTML = seconds;
-
-},1000);
-
-</script>
-
+        cards.forEach(card => {
+            cardObserver.observe(card);
+        });
+    </script>
 </body>
 </html>
